@@ -1,0 +1,48 @@
+<CreateScreen_TestType>:
+    BoxLayout:
+        id: box
+        orientation: "vertical"
+        adaptive_height: True
+        MDRaisedButton:
+            text: "back"
+            on_release: root.back()
+        BoxLayout:
+            orientation: "vertical"
+            id: panels
+        MDLabel:
+            text: "persons"
+        GridLayout:
+            cols: 3
+            MDTextField:
+                hint_text: "name"
+                id: person_name
+            MDTextField:
+                hint_text: "age"
+                id: person_age
+            MDRaisedButton:
+                text: "add"
+                on_release: root.add_person()
+        MDLabel:
+            text: "tasks"
+        GridLayout:
+            cols: 3
+            MDTextField:
+                hint_text: "task"
+                id: task_task
+            MDTextField:
+                hint_text: "time needed"
+                id: task_timeneeded
+            MDRaisedButton:
+                text: "add"
+                on_release: root.add_task()
+        MDRaisedButton:
+            text: "save"
+            on_release: root.save()
+
+<ContentPersons>:
+    MDList:
+        id: personlist
+
+<ContentTasks>:
+    MDList:
+        id: tasklist

@@ -1,0 +1,23 @@
+<Content>:
+    orientation: "vertical"
+    spacing: "6dp"
+    size_hint_y: None
+    height: "240dp"
+
+    MDTextField:
+        hint_text: "planning name"
+        id: applname
+        required: True
+        helper_text_mode: "on_error"
+
+    ScrollView:
+        MDList:
+            id: itemtypes
+
+<ItemType>:
+    on_release: root.set_icon(check)
+    id: item
+
+    CheckboxLeftWidget:
+        id: check
+        group: "check"

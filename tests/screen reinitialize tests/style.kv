@@ -1,0 +1,26 @@
+<S1>:
+    BoxLayout:
+        id: bl
+        orientation: 'vertical'
+        Label:
+            text: "label made with kivy"
+        Button:
+            text: "update"
+            on_release:
+                root.reload()
+
+        Button:
+            text: "next screen"
+            on_release:
+                root.manager.show_screen("2")
+
+<S2>:
+    BoxLayout:
+        Button:
+            text: "go back"
+            on_release:
+                root.manager.show_screen("1", direction="right")
+        Button:
+            text: "update screen 1"
+            on_release:
+                root.manager.update_screen("1")

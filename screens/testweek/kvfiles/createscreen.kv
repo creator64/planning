@@ -1,0 +1,23 @@
+<CreateScreen_TestWeek>:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDToolbar:
+            title: "Example Tabs"
+
+        MDTabs:
+            id: tabs
+            on_tab_switch: root.on_tab_switch(*args)
+
+
+<SubjectTab>:
+    orientation: "vertical"
+    MDTextField:
+        id: subject
+        hint_text: "subject"
+        text: root.subject
+    MDTextField:
+        id: learningcontent
+        hint_text: "learningcontent"
+        multiline: True
+        text: root.learningcontent

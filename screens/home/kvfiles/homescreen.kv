@@ -1,0 +1,23 @@
+<ApplItem>:
+    #_no_ripple_effect: True
+    on_release: root.master.on_appl_click(*args)
+
+    IconRightWidget:
+        icon: "chevron-right"
+
+<HomeScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+        id: box
+
+        MDToolbar:
+            id: toolbar
+            title: "Home"
+            left_action_items: []
+            right_action_items: [["folder-plus", lambda x: root.new()], ["trash-can", lambda x: root.trigger_delete_mode()], ["circle-edit-outline", lambda x: root.trigger_editname_mode()]]
+            md_bg_color: (0,0,0,1)
+
+        ScrollView:
+            MDList:
+                id: appl_list
+                spacing: "12dp"

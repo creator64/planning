@@ -1,0 +1,27 @@
+<Home>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            id: l
+            data_use: {"var":2}
+        Button:
+            text: "settings"
+            on_press:
+                root.manager.show_screen("settings")
+
+<Settings>:
+    BoxLayout:
+        orientation: "vertical"
+        TextInput:
+            multiline: False
+            id: l
+            text: "jsnabahhygas"
+            data_use: "dfldjkdsjk"
+            
+            
+        Button:
+            text: 'save'
+            on_press:
+                root.save()
+                root.manager.show_screen("home", direction="right")
+            
