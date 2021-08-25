@@ -4,6 +4,7 @@ from TypeModels.maininfo import Main
 from plannings.screens.screenmanager import ScreenManager # custom screenmanager inheriting from kivy screenmanager
 from plannings.database.db import DB
 from plannings.database.where import WHERE, eq
+from plannings.applications.applrecord import ApplRecord
 from kivymd.app import MDApp
 
 """stores global variables which every file has access to"""
@@ -29,14 +30,26 @@ def get_next_application_id():
         return 1 # if empty list we get index error and it means there arent any applications yet so we just return 1
     return id + 1
 
-def get_applid(applname):
+def get_applrecord(applname):
     wh = WHERE(name=eq(applname)) # create a where object (name==applname)
     # get the id of the first (and only) record that we have selected (where name is the given applname)
-    applid = Main.load(d, WHERE={"applications": wh})["applications"].data.fetchone()["id"]
-    return applid
+    row = Main.load(d, WHERE={"applications": wh})["applications"].data.fetchone()
+    return ApplRecord(*row)
 
 def get_type(typename):
     try: return [t for t in types if t.name == typename][0] # go through all types and select the one with the right name
     except IndexError: return None
+
+def add_application(branch, applname, show=True):
+    # 1. get next application id
+    # 2. create the testtype branch
+    # 3. add this application to maininfo
+    # 4. change screens to this application
+    applid = get_next_application_id() # 1
+    branch.create(d, applid=applid) # 2
+    appltable = Main.load(d)["applications"] # 3
+    appltable.add_row(name=applname, type=branch.name, version=version) # 3
+    applr = get_applrecord(applname)
+    if show: sm.show_screen(screen=branch.menuscreen(applr)) # 4
 
 # end

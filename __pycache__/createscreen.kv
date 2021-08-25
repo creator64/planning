@@ -9,6 +9,10 @@
             id: tabs
             on_tab_switch: root.on_tab_switch(*args)
 
+        MDRaisedButton:
+            text: "save"
+            size: 200,200
+            size_hint: None,None
 
 <SubjectTab>:
     orientation: "vertical"
@@ -16,8 +20,17 @@
         id: subject
         hint_text: "subject"
         text: root.subject
-    MDTextField:
+    TextInput:
         id: learningcontent
-        hint_text: "learningcontent"
         multiline: True
         text: root.learningcontent
+    MDBoxLayout:
+        MDLabel:
+            id: date
+            text: str(root.date)
+        MDRaisedButton:
+            text: "change date"
+            on_release: root.opendatpicker()
+
+    MDRaisedButton:
+        text: "save subject"

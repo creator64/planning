@@ -17,7 +17,7 @@ class CreateScreen_TestType(DynamicScreen):
     def __init__(self, applname, **kwargs):
         self.screenname = "createscreen_testtype"
         self.applname = applname
-        super(CreateScreen_TestType, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         personpanel = MDExpansionPanel(
             icon="account",
             content=ContentPersons(),
@@ -52,26 +52,17 @@ class CreateScreen_TestType(DynamicScreen):
             Snackbar(text="invalid taskname or time", duration=1).open()
 
     def save(self):
-        # 1. get next application id
-        # 2. create the testtype branch
-        # 3. add data filled in the gui
-        # 4. add this application to maininfo
-        # 5. change screens to this application
-        applid = globals.get_next_application_id() # 1
-        self.branch.create(globals.d, applid=applid) # 2
+        applid = globals.get_next_application_id()
+        globals.add_application(self.branch, self.applname, show=False) # (self.branch is assigned in Tree.handle_branches)
 
-        tasktable, persontable = self.branch.load(globals.d, applid=applid).tables[0:2] # 3 (get persontable and tasktable weve just created)
-        taskdata = self.ids.panels.ids.taskpanel.content.ids.tasklist.children # 3 (get task data)
-        persondata = self.ids.panels.ids.personpanel.content.ids.personlist.children # 3 (get person data)
+        tasktable, persontable = self.branch.load(globals.d, applid=applid).tables[0:2] # get persontable and tasktable weve just created
+        taskdata = self.ids.panels.ids.taskpanel.content.ids.tasklist.children # get task data
+        persondata = self.ids.panels.ids.personpanel.content.ids.personlist.children # get person data
         for record in persondata: # 3 (records are list item objects)
-            persontable.add_row(name=record.text, age=record.secondary_text) # 3
-        for record in taskdata: # 3
-            tasktable.add_row(task=record.text, timeneeded=record.secondary_text) # 3
-
-        appltable = Main.load(globals.d)["applications"] # 4
-        appltable.add_row(name=self.applname, type=self.branch.name, version=globals.version) # 4
-
-        globals.sm.show_screen(screen=self.branch.menuscreen(applid)) # 5
+            persontable.add_row(name=record.text, age=record.secondary_text)
+        for record in taskdata:
+            tasktable.add_row(task=record.text, timeneeded=record.secondary_text)
+        globals.sm.show_screen(screen=self.branch.menuscreen(applid))
 
     def back(self):
         globals.sm.show_previous_screen()

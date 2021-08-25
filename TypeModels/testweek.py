@@ -1,7 +1,15 @@
 from plannings.modeling.tree import Tree
 from plannings.modeling.tablemodel import TableModel
 from sqlalchemy import Integer, String, Boolean, Date, Time, DateTime, Column
-from screens.testweek.createscreen import CreateScreen_TestWeek
+from screens.testweek.menuscreen import MenuScreen_TestWeek
+from screens.testweek.submenuscreen import SubMenuScreen_TestWeek
+
+class SubjectRecord:
+    def __init__(self, subject, learningcontent, date, mark):
+        self.subject = subject
+        self.learningcontent = learningcontent
+        self.date = date
+        self.mark = mark
 
 class TestWeek(Tree):
     name = "Test Week"
@@ -10,7 +18,9 @@ class TestWeek(Tree):
         TableModel("subjects", Column("subject", String), Column("mark", Integer), Column("testdate", DateTime),
                                Column("learningcontent", String))
     ]
-    createscreen = CreateScreen_TestWeek
+    menuscreen = MenuScreen_TestWeek
+    submenuscreen = SubMenuScreen_TestWeek
+    screens = {"submenuscreen": SubMenuScreen_TestWeek}
 
 class TestWeek_DayPlanning(Tree):
     master = TestWeek
@@ -40,3 +50,5 @@ class TestWeek_SubjectsDone(Tree):
     tables = [
         TableModel("subjectsdone", Column("subject", String), Column("donetime", Time), Column("date", Date))
     ]
+
+Tree.handle_branches()

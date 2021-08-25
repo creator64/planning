@@ -1,0 +1,44 @@
+<SubMenuScreen_TestWeek>:
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "subjects"
+        ScrollView:
+            MDList:
+                id: subjectlist
+
+<SubjectItem>:
+    text: root.subject + ": " + str(root.mark)
+    secondary_text: "- " + root.learningcontent
+    tertiary_text: "- " + root.get_date()
+    on_release: root.master.edit_subject(*args)
+
+    ImageLeftWidget:
+        source: root.get_image()
+
+<SubjectDialogContent>:
+    orientation: "vertical"
+    height: "240dp"
+    size_hint_y: None
+    MDTextField:
+        id: subject
+        hint_text: "subject"
+        text: root.subjectitem.subject
+    MDTextField:
+        id: mark
+        hint_text: "mark"
+        text: str(root.subjectitem.mark)
+    MDTextField:
+        id: learningcontent
+        hint_text: "learningcontent"
+        multiline: True
+        text: root.subjectitem.learningcontent
+    MDGridLayout:
+        cols: 2
+        MDLabel:
+            id: date
+            text: "current date: " + root.subjectitem.get_date()
+            bold: True
+        MDRaisedButton:
+            text: "change date"
+            on_release: root.opendatepicker()

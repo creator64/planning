@@ -1,0 +1,18 @@
+<MenuScreen_TestWeek>:
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: root.applr.name
+        ScrollView:
+            MDList:
+                id: options
+        MDRaisedButton:
+            text: "back"
+            on_release: root.back()
+
+
+<OptionItem>:
+    _no_ripple_effect: True
+    on_release: root.master.open(*args)
+    IconRightWidget:
+        icon: "chevron-right"

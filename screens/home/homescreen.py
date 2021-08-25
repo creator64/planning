@@ -1,5 +1,6 @@
 from plannings.screens.dynamic_screen import DynamicScreen # custom screen inheriting from kivymd screen
 from plannings.database.where import WHERE, eq
+from plannings.applications.applrecord import ApplRecord
 from TypeModels.maininfo import Main
 from screens.home.dialogcontent import Content
 from kivymd.uix.label import MDLabel
@@ -18,30 +19,29 @@ import globals
 
 
 class ApplItem(TwoLineAvatarIconListItem):
-    def __init__(self, name, type, id, master, **kwargs):
+    def __init__(self, applrecord, master, **kwargs):
         super(ApplItem, self).__init__(**kwargs)
+        self.applr = applrecord
         self.master = master
-        self.name = name; self.text = name
-        self.type = type; self.secondary_text = type
-        self.id = id
+        self.text = self.applr.name
+        self.secondary_text = self.applr.type
 
 class HomeScreen(DynamicScreen):
     dialog = None
     dialogdel = None
     dialogedit = None
     overlay_color = get_color_from_hex("#6042e4")
+    branch = Main
     def __init__(self, **kwargs):
         self.screenname = "home"
         self.mode = "normal"
         super(HomeScreen, self).__init__(**kwargs)
         self.handle_data()
         for row in self.data: # go through all applications
-            name, type, id = row["name"], row["type"], row["id"]
-            self.ids.appl_list.add_widget(ApplItem(name=name, type=type, id=id, master=self))
+            self.ids.appl_list.add_widget(ApplItem(ApplRecord(*row), master=self))
         self.ids.box.add_widget(MDFlatButton(text="add some data", on_release=lambda x: self.data_use[0].add_row(name="lol", type="vet")))
 
     def handle_data(self):
-        self.branch = Main
         self.tablecoll = self.branch.load(d) # a TableCollection object with access to table objects
         self.data_use = [self.tablecoll["applications"]]
         self.data = self.data_use[0].data # get data of table applications
@@ -67,7 +67,7 @@ class HomeScreen(DynamicScreen):
         self.change_toolbar("Select a planning to rename", (0,0,1,1), l)
 
     def on_appl_click(self, applitem):
-        print(applitem.id)
+        print(applitem.applr.id)
         if self.mode == "normal":
             self.open(applitem)
         elif self.mode == "delete":
@@ -76,22 +76,22 @@ class HomeScreen(DynamicScreen):
             self.editname_gui(applitem)
 
     def open(self, applitem):
-        type = globals.get_type(applitem.type)
-        applid = applitem.id
-        sm.show_screen(screen=type.menuscreen(applid))
+        type = globals.get_type(applitem.applr.type)
+        applr = applitem.applr
+        sm.show_screen(screen=type.menuscreen(applr))
 
     def delete_gui(self, applitem):
-        self.dialogdel = MDDialog(text="Are you sure you want to delete planning %s" %(applitem.name),
+        self.dialogdel = MDDialog(text="Are you sure you want to delete planning %s" %(applitem.applr.name),
                  buttons=[MDFlatButton(text="CANCEL", on_release=lambda x: self.dialogdel.dismiss()),
                           MDFlatButton(text="DELETE", on_release=lambda x: self.delete(applitem))])
         self.dialogdel.open()
 
     def delete(self, applitem):
         appltable = self.data_use[0] # get Main_applications
-        branch = globals.get_type(applitem.type) # get the branch object
-        branch.delete(globals.d, applid=applitem.id) # delete this branch
-        print(f"deleted appl {applitem.name} with id {applitem.id}")
-        wh = WHERE(id=eq(applitem.id)) # make a where object (id==applitem.id)
+        branch = globals.get_type(applitem.applr.type) # get the branch object
+        branch.delete(globals.d, applid=applitem.applr.id) # delete this branch
+        print(f"deleted appl {applitem.applr.name} with id {applitem.applr.id}")
+        wh = WHERE(id=eq(applitem.applr.id)) # make a where object (id==applitem.id)
         appltable.delete_row(wh) # delete the record of Main_applications where we save info of this application
         self.dialogdel.dismiss() # close the dialog
         Snackbar(text="Planning removed successfully", md_bg_color=(0,1,0,1), duration=1).open() # confirmation
@@ -100,14 +100,14 @@ class HomeScreen(DynamicScreen):
         self.dialogedit = MDDialog(
                 title="choose a new name",
                 type="custom",
-                content_cls=MDTextField(text=applitem.name, hint_text="name"),
+                content_cls=MDTextField(text=applitem.applr.name, hint_text="name"),
                 buttons=[MDFlatButton(text="CANCEL", on_release=lambda x: self.dialogedit.dismiss()),
                          MDFlatButton(text="SAVE", on_release=lambda x: self.editname(applitem, self.dialogedit.content_cls.text))])
         self.dialogedit.open()
 
     def editname(self, applitem, newname):
         appltable = self.data_use[0] # get Main_applications
-        wh = WHERE(id=eq(applitem.id)) # make a where object (id==applitem.id)
+        wh = WHERE(id=eq(applitem.applr.id)) # make a where object (id==applitem.id)
         appltable.update(WHERE=wh, name=newname) # update the name of this application
         self.dialogedit.dismiss() # close the dialog
         Snackbar(text="Planning renamed successfully", md_bg_color=(0,1,0,1), duration=1).open() # confirmation
@@ -148,6 +148,9 @@ class HomeScreen(DynamicScreen):
             Snackbar(text="No type selected", duration=1).open()
             return 0
         dialog.dismiss() # close the dialog (otherwise it shows up on the next screen)
-        # show the createscreen of the selected type which handles the rest of the process
-        sm.show_screen(screen=type.createscreen(applname))
+        # if the type has a createscreen show the createscreen of the selected type which handles the rest of the process
+        if type.createscreen:
+            sm.show_screen(screen=type.createscreen(applname))
+        else:
+            globals.add_application(type, applname)
         return 1
