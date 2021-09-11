@@ -1,44 +1,26 @@
+#:import BackButton plannings.screens.backbutton
+
 <SubMenuScreen_TestWeek>:
     MDBoxLayout:
         orientation: "vertical"
         MDToolbar:
+            id: toolbar
             title: "subjects"
+            right_action_items: [["folder-plus", lambda x: root.new()]]
         ScrollView:
             MDList:
                 id: subjectlist
+        BackButton:
 
 <SubjectItem>:
-    text: root.subject + ": " + str(root.mark)
-    secondary_text: "- " + root.learningcontent
-    tertiary_text: "- " + root.get_date()
+    text: root.get_text()
+    secondary_text: "- " + root.print_date_time()
+    tertiary_text: "- " + root.subjectr.learningcontent
     on_release: root.master.edit_subject(*args)
 
     ImageLeftWidget:
         source: root.get_image()
 
-<SubjectDialogContent>:
-    orientation: "vertical"
-    height: "240dp"
-    size_hint_y: None
-    MDTextField:
-        id: subject
-        hint_text: "subject"
-        text: root.subjectitem.subject
-    MDTextField:
-        id: mark
-        hint_text: "mark"
-        text: str(root.subjectitem.mark)
-    MDTextField:
-        id: learningcontent
-        hint_text: "learningcontent"
-        multiline: True
-        text: root.subjectitem.learningcontent
-    MDGridLayout:
-        cols: 2
-        MDLabel:
-            id: date
-            text: "current date: " + root.subjectitem.get_date()
-            bold: True
-        MDRaisedButton:
-            text: "change date"
-            on_release: root.opendatepicker()
+    IconRightWidget:
+        icon: "trash-can"
+        on_release: root.delete_gui(*args)

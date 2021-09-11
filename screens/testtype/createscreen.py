@@ -63,6 +63,3 @@ class CreateScreen_TestType(DynamicScreen):
         for record in taskdata:
             tasktable.add_row(task=record.text, timeneeded=record.secondary_text)
         globals.sm.show_screen(screen=self.branch.menuscreen(applid))
-
-    def back(self):
-        globals.sm.show_previous_screen()

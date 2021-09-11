@@ -1,3 +1,5 @@
+#:import BackButton plannings.screens.backbutton
+
 <MenuScreen_TestWeek>:
     MDBoxLayout:
         orientation: "vertical"
@@ -6,9 +8,7 @@
         ScrollView:
             MDList:
                 id: options
-        MDRaisedButton:
-            text: "back"
-            on_release: root.back()
+        BackButton:
 
 
 <OptionItem>:

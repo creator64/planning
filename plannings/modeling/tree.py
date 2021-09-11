@@ -64,7 +64,7 @@ class Tree:
             branch_list.append(master.name if master.name else master.__class__.__name__)
             master = master.master
         branch_list.reverse() # reverse so the ultimate masters name is the first of the list
-        return "_".join(branch_list)
+        return ("_".join(branch_list)).replace(" ", "_")
 
     @classmethod
     def create(self, dbconn, applid=None, create_children=True):

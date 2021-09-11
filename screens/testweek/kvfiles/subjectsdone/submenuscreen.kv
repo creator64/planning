@@ -1,0 +1,17 @@
+#:import BackButton plannings.screens.backbutton
+
+<SubjectDoneItem>:
+    text: root.subjectr.subject + ": " + str(root.time)
+    font_name: "modak"
+    font_size: "30sp"
+
+<SubMenuScreen_TestWeek_SubjectsDone>:
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "tijd besteed per vak"
+            md_bg_color: (1,0.2,0.05,1)
+        ScrollView:
+            MDList:
+                id: subjects
+        BackButton:

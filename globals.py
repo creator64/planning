@@ -4,12 +4,14 @@ from TypeModels.maininfo import Main
 from plannings.screens.screenmanager import ScreenManager # custom screenmanager inheriting from kivy screenmanager
 from plannings.database.db import DB
 from plannings.database.where import WHERE, eq
-from plannings.applications.applrecord import ApplRecord
 from kivymd.app import MDApp
 
 """stores global variables which every file has access to"""
 
 class MainApp(MDApp):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     def build(self):
         #self.theme_cls.primary_palette = "BlueGray"
         return sm
@@ -34,7 +36,7 @@ def get_applrecord(applname):
     wh = WHERE(name=eq(applname)) # create a where object (name==applname)
     # get the id of the first (and only) record that we have selected (where name is the given applname)
     row = Main.load(d, WHERE={"applications": wh})["applications"].data.fetchone()
-    return ApplRecord(*row)
+    return row
 
 def get_type(typename):
     try: return [t for t in types if t.name == typename][0] # go through all types and select the one with the right name

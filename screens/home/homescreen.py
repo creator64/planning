@@ -1,6 +1,5 @@
 from plannings.screens.dynamic_screen import DynamicScreen # custom screen inheriting from kivymd screen
 from plannings.database.where import WHERE, eq
-from plannings.applications.applrecord import ApplRecord
 from TypeModels.maininfo import Main
 from screens.home.dialogcontent import Content
 from kivymd.uix.label import MDLabel
@@ -20,11 +19,9 @@ import globals
 
 class ApplItem(TwoLineAvatarIconListItem):
     def __init__(self, applrecord, master, **kwargs):
-        super(ApplItem, self).__init__(**kwargs)
         self.applr = applrecord
         self.master = master
-        self.text = self.applr.name
-        self.secondary_text = self.applr.type
+        super(ApplItem, self).__init__(**kwargs)
 
 class HomeScreen(DynamicScreen):
     dialog = None
@@ -35,11 +32,11 @@ class HomeScreen(DynamicScreen):
     def __init__(self, **kwargs):
         self.screenname = "home"
         self.mode = "normal"
-        super(HomeScreen, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.handle_data()
+        #print(self.data_use[0])
         for row in self.data: # go through all applications
-            self.ids.appl_list.add_widget(ApplItem(ApplRecord(*row), master=self))
-        self.ids.box.add_widget(MDFlatButton(text="add some data", on_release=lambda x: self.data_use[0].add_row(name="lol", type="vet")))
+            self.ids.appl_list.add_widget(ApplItem(row, master=self))
 
     def handle_data(self):
         self.tablecoll = self.branch.load(d) # a TableCollection object with access to table objects

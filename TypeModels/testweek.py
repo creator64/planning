@@ -1,26 +1,21 @@
 from plannings.modeling.tree import Tree
 from plannings.modeling.tablemodel import TableModel
-from sqlalchemy import Integer, String, Boolean, Date, Time, DateTime, Column
+from sqlalchemy import Integer, String, Boolean, Date, Time, DateTime, Float, Column
 from screens.testweek.menuscreen import MenuScreen_TestWeek
 from screens.testweek.submenuscreen import SubMenuScreen_TestWeek
-
-class SubjectRecord:
-    def __init__(self, subject, learningcontent, date, mark):
-        self.subject = subject
-        self.learningcontent = learningcontent
-        self.date = date
-        self.mark = mark
+from screens.testweek.addsubject import AddSubject_TestWeek
+from screens.testweek.subjectsdone.submenuscreen import SubMenuScreen_TestWeek_SubjectsDone
 
 class TestWeek(Tree):
     name = "Test Week"
     istype = True
     tables = [
-        TableModel("subjects", Column("subject", String), Column("mark", Integer), Column("testdate", DateTime),
-                               Column("learningcontent", String))
+        TableModel("subjects", Column("subject", String), Column("mark", Float), Column("testdate", Date),
+                               Column("time", Time), Column("learningcontent", String))
     ]
     menuscreen = MenuScreen_TestWeek
     submenuscreen = SubMenuScreen_TestWeek
-    screens = {"submenuscreen": SubMenuScreen_TestWeek}
+    screens = {"submenuscreen": SubMenuScreen_TestWeek, "addsubject": AddSubject_TestWeek}
 
 class TestWeek_DayPlanning(Tree):
     master = TestWeek
@@ -48,7 +43,9 @@ class TestWeek_SubjectsDone(Tree):
     master = TestWeek
     name = "Subjects done"
     tables = [
-        TableModel("subjectsdone", Column("subject", String), Column("donetime", Time), Column("date", Date))
+        TableModel("subjectsdone", Column("subject", String), Column("donetime", String, server_default="(0,0)"),
+                                   Column("date", Date))
     ]
+    screens = {"submenuscreen": SubMenuScreen_TestWeek_SubjectsDone}
 
 Tree.handle_branches()

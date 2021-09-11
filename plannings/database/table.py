@@ -9,10 +9,10 @@ class Table:
         self.tablesqla = self.dbconn.meta.tables[self.name] # a Table object of sqlalchemy
         wh = WHERE.handle_statements(self.tablesqla) # returns a list of statements
         query = self.tablesqla.select().where(*wh).order_by(*ORDER_BY) # a select statement
-        self.data = self.dbconn.conn.execute(query) # the actual table data
-        #self.data = pd.read_sql_query(query, con=self.database.engine)
+        self.data = list(self.dbconn.conn.execute(query)) # the actual table data
+        # IMPORTANT: DO NOT REMOVE list() 
 
-    def __repr__(self):
+    def _repr__(self):
         print(f"table object called {self.name}\ndata:")
         for row in self.data:
             print(row)
@@ -51,7 +51,6 @@ class Table:
 
     @handle_updates
     def update(self, WHERE=WHERE(), **col_values: "col1=val1, col2=val2, ..."):
-        #l = [self.tablesqla.c[condition] == conditions[condition] for condition in conditions]
         wh = WHERE.handle_statements(self.tablesqla)
         st = self.tablesqla.update().values(**col_values).where(*wh)
         self.dbconn.engine.execute(st)

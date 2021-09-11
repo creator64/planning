@@ -4,7 +4,6 @@ from kivy.uix.screenmanager import ScreenManagerException
 class ScreenManager(SM):
     def __init__(self, **kwargs):
         self.previous_screen = None
-        #self.outdated_screens = []
         super(ScreenManager, self).__init__(**kwargs)
 
     def update_screens(self, table):

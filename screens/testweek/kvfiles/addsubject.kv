@@ -1,0 +1,46 @@
+#:import BackButton plannings.screens.backbutton
+
+<AddSubject_TestWeek>:
+    ScrollView:
+        GridLayout:
+            cols: 1
+            BackButton:
+            MDTextField:
+                id: subject
+                hint_text: "vak"
+                required: True
+                helper_text_mode: "on_error"
+            MDGridLayout:
+                cols: 3
+                MDTextField:
+                    id: mark
+                    hint_text: "cijfer"
+                    size_hint_x: 0.7
+                CheckBox:
+                    id: nomark
+                    size_hint_x: 0.1
+                MDLabel:
+                    text: "Nog Geen Cijfer"
+                    size_hint_x: 0.2
+            MDGridLayout:
+                cols: 3
+                MDLabel:
+                    text: "Datum:"
+                    size_hint_x: 0.2
+                MDLabel:
+                    id: date
+                    size_hint_x: 0.6
+                MDRaisedButton:
+                    text: "verander datum"
+                    on_release: root.change_date()
+                    size_hint_x: 0.2
+            MDTextField:
+                hint_text: "tijd"
+                id: time
+            MDTextField:
+                id: learningcontent
+                hint_text: "leerstof"
+                multiline: True
+            MDRaisedButton:
+                text: "save"
+                on_release: root.save()

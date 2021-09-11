@@ -21,6 +21,3 @@ class MenuScreen_TestWeek(DynamicScreen):
 
     def open(self, optionitem_instance):
         globals.sm.show_screen(screen=optionitem_instance.branch.screens["submenuscreen"](self.applr)) # show the main (or subjects) screen of the branch
-
-    def back(self):
-        globals.sm.show_previous_screen()
