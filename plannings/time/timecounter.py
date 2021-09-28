@@ -2,6 +2,7 @@ class TimeCounter:
     def __init__(self, hours=0, minutes=0):
         self.hours = hours
         self.minutes = minutes
+        self.do_minute_check()
 
     def __bool__(self):
         return self.hours or self.minutes

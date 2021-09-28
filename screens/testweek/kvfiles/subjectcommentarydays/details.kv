@@ -1,0 +1,27 @@
+#:import BackButton plannings.screens.backbutton
+
+<Details_TestWeek_SubjectCommentaryDays>:
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "edit"
+        MDGridLayout:
+            cols: 2
+            spacing: "25dp"
+            MDRaisedButton:
+                id: daymenubutton
+                md_bg_color: (0.3, 0.4, 0.3, 1)
+                size_hint_x: 0.3
+                on_release: root.show_menu("day")
+            MDRaisedButton:
+                id: subjectmenubutton
+                md_bg_color: (0.3, 0.4, 0.3, 1)
+                size_hint_x: 0.3
+                on_release: root.show_menu("subject")
+        MDTextField:
+            id: content
+            size_hint_x: 1
+            max_height: "200dp"
+            multiline: True
+            mode: "rectangle"
+        BackButton:

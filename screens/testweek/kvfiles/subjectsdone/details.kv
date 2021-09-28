@@ -1,0 +1,17 @@
+#:import BackButton plannings.screens.backbutton
+
+<Details_TestWeek_SubjectsDone>:
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: root.subjectr.subject
+        ScrollView:
+            MDList:
+                id: subjectdetails
+        BackButton:
+
+<SubjectDetailItem>:
+    text: root.get_text()
+    IconRightWidget:
+        icon: "trash-can"
+        on_release: root.master.delete_gui(root)

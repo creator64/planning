@@ -10,7 +10,7 @@ class Table:
         wh = WHERE.handle_statements(self.tablesqla) # returns a list of statements
         query = self.tablesqla.select().where(*wh).order_by(*ORDER_BY) # a select statement
         self.data = list(self.dbconn.conn.execute(query)) # the actual table data
-        # IMPORTANT: DO NOT REMOVE list() 
+        # IMPORTANT: DO NOT REMOVE list()
 
     def _repr__(self):
         print(f"table object called {self.name}\ndata:")
@@ -63,3 +63,9 @@ class Table:
     def rename_col(self, col, new_col):
         self.dbconn.engine.execute(f"ALTER TABLE {self.name} RENAME COLUMN '{col}' TO '{new_col}'")
         return 1
+
+    def check_value_exist_in_col(self, col: str, value): 
+        for record in self.data:
+            if record[col] == value:
+                return True
+        return False

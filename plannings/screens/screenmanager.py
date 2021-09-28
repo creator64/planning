@@ -26,6 +26,7 @@ class ScreenManager(SM):
     @handle_show_screen
     def show_screen(self, name=None, screen=None, direction="left"):
         self.transition.direction = direction
+        new = False
         if name and screen:
             raise Exception("Only one param aloud")
         elif name:
@@ -36,13 +37,14 @@ class ScreenManager(SM):
             name = screen.name # get name of the screen
             if not self.has_screen(name): # check if screen with that name already exists
                 self.add_widget(screen) # if not add the screen
+                new = True
         else:
             raise Exception("Error: need to fill in one of the parameters screen or name")
             return 0
         self.previous_screen = self.current
-        #if screen in self.outdated_screens: # if the screen is not updated
-        #    screen.update(); self.outdated_screens.remove(screen) # update the screen and remove it from the list of outdated screens
         self.current = name # change the current screen to name
+        try: screen.entering(new) # self made event # param new points if the screen has not been given before
+        except AttributeError:  pass
         return 1
 
     def show_previous_screen(self, direction="right"):

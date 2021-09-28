@@ -3,8 +3,9 @@ from copy import copy
 
 class DynamicScreen(Screen):
     delete_on_leave = False
-    def __init__(self, **kwargs):
+    def __init__(self, required_args=["applr.id"], **kwargs):
         super().__init__(**kwargs)
+        self.required_args = required_args # a list of arguments that identify a screen
         self.name = self.get_name()
         self.data_use = []
 
@@ -16,12 +17,16 @@ class DynamicScreen(Screen):
 
     def update(self):
         self.clear_widgets()
-        try: self.__init__(self.applr)
-        except AttributeError: self.__init__()
+        args = [vars(self)[arg.split(".")[0]] for arg in self.required_args] # arg could be for ex "applr.id"
+        self.__init__(*args)
 
     def get_name(self):
-        try:
-            applid = self.applr.id
-        except AttributeError:
-            return self.screenname
-        return self.screenname + "_" + str(self.applr.id)
+        l = [self.screenname]
+        for arg in self.required_args:
+            s = arg.split(".") # so "applr.id" will become ["applr", "id"]
+            obj = vars(self)[s[0]] # self.applr
+            val=str(obj)
+            for attr in s[1:]: # go through all attributes (in out example: ["id"])
+                val = str(obj[attr]) # mostly obj is a sqlalchemy record so we can do this, for ex: applr["id"] is possible
+            l.append(val)
+        return "_".join(l)

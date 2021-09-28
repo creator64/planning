@@ -5,6 +5,10 @@ from screens.testweek.menuscreen import MenuScreen_TestWeek
 from screens.testweek.submenuscreen import SubMenuScreen_TestWeek
 from screens.testweek.addsubject import AddSubject_TestWeek
 from screens.testweek.subjectsdone.submenuscreen import SubMenuScreen_TestWeek_SubjectsDone
+from screens.testweek.subjectsdone.details import Details_TestWeek_SubjectsDone
+from screens.testweek.subjectcommentarydays.submenuscreen import SubMenuScreen_TestWeek_SubjectCommentaryDays
+from screens.testweek.subjectcommentarydays.overview import Overview_Day_TestWeek_SubjectCommentaryDays, Overview_Subject_TestWeek_SubjectCommentaryDays
+from screens.testweek.subjectcommentarydays.details import Details_TestWeek_SubjectCommentaryDays
 
 class TestWeek(Tree):
     name = "Test Week"
@@ -27,10 +31,16 @@ class TestWeek_DayPlanning(Tree):
 
 class TestWeek_SubjectCommentaryDays(Tree):
     master = TestWeek
-    name = "Subjectcommentary days"
+    name = "Subjectcommentarydays"
     tables = [
-        TableModel("subjectcommentarydays", Column("subject", String), Column("comment", String), Column("date", Date))
+        TableModel("subjectcommentarydays", Column("subject", String), Column("comment", String),
+                                            Column("date", Date)),
+        TableModel("days", Column("day", Date))
     ]
+    screens = {"submenuscreen": SubMenuScreen_TestWeek_SubjectCommentaryDays,
+               "overviewday": Overview_Day_TestWeek_SubjectCommentaryDays,
+               "overviewsubject": Overview_Subject_TestWeek_SubjectCommentaryDays,
+               "details": Details_TestWeek_SubjectCommentaryDays}
 
 class TestWeek_SubjectPartValue(Tree):
     master = TestWeek
@@ -43,9 +53,10 @@ class TestWeek_SubjectsDone(Tree):
     master = TestWeek
     name = "Subjects done"
     tables = [
-        TableModel("subjectsdone", Column("subject", String), Column("donetime", String, server_default="(0,0)"),
-                                   Column("date", Date))
+        TableModel("subjectsdone", Column("id", Integer, primary_key=True), Column("subject", String),
+                                   Column("donetime", String, server_default="(0,0)"), Column("date", Date))
     ]
-    screens = {"submenuscreen": SubMenuScreen_TestWeek_SubjectsDone}
+    screens = {"submenuscreen": SubMenuScreen_TestWeek_SubjectsDone,
+               "details": Details_TestWeek_SubjectsDone}
 
 Tree.handle_branches()

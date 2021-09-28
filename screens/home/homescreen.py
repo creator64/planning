@@ -32,7 +32,8 @@ class HomeScreen(DynamicScreen):
     def __init__(self, **kwargs):
         self.screenname = "home"
         self.mode = "normal"
-        super().__init__(**kwargs)
+        self.required_args = []
+        super().__init__(self.required_args, **kwargs)
         self.handle_data()
         #print(self.data_use[0])
         for row in self.data: # go through all applications

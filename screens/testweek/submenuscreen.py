@@ -1,5 +1,6 @@
 from plannings.screens.dynamic_screen import DynamicScreen # custom screen inheriting from kivymd screen
 from plannings.database.where import WHERE, eq
+from plannings.time.timedicts import *
 from kivymd.app import MDApp
 from kivymd.uix.list import ThreeLineAvatarIconListItem
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -30,9 +31,6 @@ class SubjectItem(ThreeLineAvatarIconListItem):
 
     def print_date_time(self):
         wd = self.subjectr.testdate.weekday()
-        MonthDict = {1: "januari", 2: "februari", 3: "maart", 4: "april", 5: "mei", 6: "juni", 7: "juli", \
-                     8: "augustus", 9: "september", 10: "okobert", 11: "november", 12: "december"}
-        DayDict = {0: "maandag", 1: "dinsdag", 2: "woensdag", 3: "donderdag", 4: "vrijdag", 5: "zaterdag", 6: "zondag"}
         text = f"{DayDict[wd]} {self.subjectr.testdate.day} {MonthDict[self.subjectr.testdate.month]} "
         if t := self.subjectr.time:
             text += str(t.hour) + ":" + str(t.minute)

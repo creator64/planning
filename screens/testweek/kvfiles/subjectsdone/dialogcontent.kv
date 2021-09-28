@@ -1,0 +1,21 @@
+<DialogContent_TestWeek_SubjectsDone>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: "120dp"
+    MDGridLayout:
+        cols: 2
+        spacing: "2dp"
+        MDTextField:
+            id: hours
+            hint_text: "uren"
+        MDTextField:
+            id: minutes
+            hint_text: "minuten"
+    MDGridLayout:
+        cols: 2
+        MDLabel:
+            text: root.get_date_str()
+            id: date
+        MDRaisedButton:
+            text: "change"
+            on_release: root.change_date()

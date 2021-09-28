@@ -1,0 +1,32 @@
+#:import BackButton plannings.screens.backbutton
+
+<SubMenuScreen_TestWeek_SubjectCommentaryDays>:
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Vakoverzicht per dag"
+            right_action_items: [["folder-plus", lambda x: root.newday()]]
+        MDTabs:
+            id: tabs
+            #on_tab_switch: app.on_tab_switch(*args)
+        BackButton:
+
+<TabSubjects>:
+    title: "vakken"
+    MDList:
+        id: list
+
+<TabDays>:
+    title: "dagen"
+    MDList:
+        id: list
+
+<Scd_SubjectItem>:
+    text: root.subjectr.subject
+    on_release:
+        root.show_overview()
+
+<Scd_DayItem>:
+    text: root.get_day_str()
+    on_release:
+        root.show_overview()

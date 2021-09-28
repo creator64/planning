@@ -1,16 +1,21 @@
 #:import BackButton plannings.screens.backbutton
 
 <SubjectDoneItem>:
-    text: root.subjectr.subject + ": " + str(root.time)
-    font_name: "modak"
-    font_size: "30sp"
+    markup: True
+    text: f"[size=20]{root.subjectr.subject}: [color={self.get_color()}][b]{str(root.time)}[/color][/b][/size]"
+    IconLeftWidget:
+        icon: "plus"
+        on_release: root.master.add_time_gui(root.subjectr)
+    IconRightWidget:
+        icon: "details"
+        on_release: root.open_details()
 
 <SubMenuScreen_TestWeek_SubjectsDone>:
     BoxLayout:
         orientation: "vertical"
         MDToolbar:
             title: "tijd besteed per vak"
-            md_bg_color: (1,0.2,0.05,1)
+            md_bg_color: (0.5, 0.2, 0.05, 1)
         ScrollView:
             MDList:
                 id: subjects

@@ -35,7 +35,7 @@ def get_next_application_id():
 def get_applrecord(applname):
     wh = WHERE(name=eq(applname)) # create a where object (name==applname)
     # get the id of the first (and only) record that we have selected (where name is the given applname)
-    row = Main.load(d, WHERE={"applications": wh})["applications"].data.fetchone()
+    row = Main.load(d, WHERE={"applications": wh})["applications"].data[0]
     return row
 
 def get_type(typename):

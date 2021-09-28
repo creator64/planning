@@ -1,0 +1,33 @@
+#:import BackButton plannings.screens.backbutton
+
+<Overview_Subject_TestWeek_SubjectCommentaryDays>:
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Overzicht " + root.subjectr.subject
+            left_action_items: [["menu", lambda x: root.show_subjectswitch(x)]]
+            right_action_items: [["circle-edit-outline", root.show_editscreen]]
+        ScrollView:
+            MDList:
+                id: list
+        BackButton:
+
+<Overview_Day_TestWeek_SubjectCommentaryDays>:
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Overzicht " + root.day_str
+            left_action_items: [["menu", lambda x: root.show_dayswitch(x)]]
+            right_action_items: [["circle-edit-outline", root.show_editscreen]]
+        ScrollView:
+            MDList:
+                id: list
+        BackButton:
+
+<Scd_Overview_Subject>:
+    text: root.content
+    secondary_text: root.subject
+
+<Scd_Overview_Day>:
+    text: root.content
+    secondary_text: root.day_str
