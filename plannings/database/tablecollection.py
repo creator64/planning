@@ -28,3 +28,4 @@ class TableCollection:
             if self.branch: # if a branch is given check if tbn is can be formatted by branch.get_tablename
                 if table.name == self.branch.get_tablename(tbn, applid=self.applid):
                     return table
+        raise Exception("No table found with name %s" %(tbn))

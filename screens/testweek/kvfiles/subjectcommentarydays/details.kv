@@ -10,13 +10,13 @@
             spacing: "25dp"
             MDRaisedButton:
                 id: daymenubutton
-                md_bg_color: (0.3, 0.4, 0.3, 1)
-                size_hint_x: 0.3
+                md_bg_color: (100/255, 149/255, 237/255 , 1)
+                size_hint: 0.3, None
                 on_release: root.show_menu("day")
             MDRaisedButton:
                 id: subjectmenubutton
-                md_bg_color: (0.3, 0.4, 0.3, 1)
-                size_hint_x: 0.3
+                md_bg_color: (100/255, 149/255, 237/255 , 1)
+                size_hint: 0.3, None
                 on_release: root.show_menu("subject")
         MDTextField:
             id: content
@@ -24,4 +24,7 @@
             max_height: "200dp"
             multiline: True
             mode: "rectangle"
+            #line_color_normal: 0.5, 0.8, 0, 1
+            color_normal: 0.5, 1, 0, 1
         BackButton:
+            on_release: root.save() # doesnt overwrite the main func of BackButton; it does both funcs :D

@@ -1,0 +1,32 @@
+<Screen>:
+    do_scroll_x: True
+    size_hint: (1,1)
+    MDGridLayout:
+        id: grid
+        cols: 5
+
+<Controller>:
+    layout_content: layout_content
+    MDBoxLayout:
+        id: bl
+        orientation: 'vertical'
+        padding: 10, 10
+        size_hint: .1, 1
+        #row_default_height: '48dp'
+        #row_force_default: True
+        spacing: 10, 10
+        ScrollView:
+            size: self.size
+            do_scroll_x: True
+            do_scroll_y: False
+            MDGridLayout:
+                #orientation: "horizontal"
+                id: layout_content
+                size_hint_x: None
+                width: self.minimum_width
+                cols: 10
+                column_default_width: '700dp'
+                #row_force_default: True
+                #spacing: 0, 0
+                #padding: 0, 0
+

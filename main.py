@@ -7,6 +7,6 @@ from TypeModels.maininfo import Main
 
 LoadKv("screens") # loads all kv files in directory screens
 
-sm.show_screen(screen=HomeScreen())
+sm.show_screen(screen=HomeScreen()) # show the homescreen 
 
 app.run()

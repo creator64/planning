@@ -9,6 +9,9 @@ from screens.testweek.subjectsdone.details import Details_TestWeek_SubjectsDone
 from screens.testweek.subjectcommentarydays.submenuscreen import SubMenuScreen_TestWeek_SubjectCommentaryDays
 from screens.testweek.subjectcommentarydays.overview import Overview_Day_TestWeek_SubjectCommentaryDays, Overview_Subject_TestWeek_SubjectCommentaryDays
 from screens.testweek.subjectcommentarydays.details import Details_TestWeek_SubjectCommentaryDays
+from screens.testweek.dayplanning.submenuscreen import SubMenuScreen_TestWeek_DayPlanning
+from screens.testweek.dayplanning.overview import Overview_TestWeek_DayPlanning
+from screens.testweek.subjectpartvalue.submenuscreen import SubMenuScreen_TestWeek_SubjectPartValue
 
 class TestWeek(Tree):
     name = "Test Week"
@@ -25,9 +28,12 @@ class TestWeek_DayPlanning(Tree):
     master = TestWeek
     name = "Day planning"
     tables = [
-        TableModel("dayplanning", Column("subject", String), Column("begintime", Time), Column("endtime", Time),
-                                  Column("date", Date))
+        TableModel("dayplanning", Column("id", Integer, primary_key=True), Column("subject", String),
+                                  Column("begintime", Time), Column("endtime", Time),
+                                  Column("date", Date), Column("done", Boolean)),
+        TableModel("days", Column("day", Date))
     ]
+    screens = {"submenuscreen": SubMenuScreen_TestWeek_DayPlanning, "overview": Overview_TestWeek_DayPlanning}
 
 class TestWeek_SubjectCommentaryDays(Tree):
     master = TestWeek
@@ -46,8 +52,10 @@ class TestWeek_SubjectPartValue(Tree):
     master = TestWeek
     name = "Subjectpartvalue"
     tables = [
-        TableModel("subjectpartvalue", Column("subject", String), Column("part", String), Column("value", Integer))
+        TableModel("subjectpartvalue", Column("subject", String), Column("part", String), Column("value", Integer)),
+        TableModel("parts", Column("part", String))
     ]
+    screens = {"submenuscreen": SubMenuScreen_TestWeek_SubjectPartValue}
 
 class TestWeek_SubjectsDone(Tree):
     master = TestWeek

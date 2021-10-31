@@ -18,7 +18,7 @@
         MDToolbar:
             title: "Overzicht " + root.day_str
             left_action_items: [["menu", lambda x: root.show_dayswitch(x)]]
-            right_action_items: [["circle-edit-outline", root.show_editscreen]]
+            right_action_items: [["circle-edit-outline", root.show_editscreen], ["trash-can", root.delete_gui]]
         ScrollView:
             MDList:
                 id: list

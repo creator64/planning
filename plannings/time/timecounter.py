@@ -26,3 +26,6 @@ class TimeCounter:
             self.hours += 1
             self.minutes -= 60
             self.do_minute_check()
+
+    def get_total_minutes(self):
+        return self.hours*60 + self.minutes

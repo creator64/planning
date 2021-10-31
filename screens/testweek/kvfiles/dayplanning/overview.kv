@@ -1,0 +1,41 @@
+#:import BackButton plannings.screens.backbutton
+#:import timestr_with_weekday plannings.time.timestrings.timestr_with_weekday
+
+<DP_ToDoItem>:
+    markup: True
+    text:
+        "[i]" + ":".join(str(root.todor.begintime).split(":")[0:2]) + " - " + ":".join(str(root.todor.endtime).split(":")[0:2])\
+        + "[/i][b]    " + root.todor.subject
+    RightCheckbox:
+        active: root.todor.done
+        on_active: root.on_checkbox_switch(*args)
+
+<Overview_TestWeek_DayPlanning>:
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Dagplanning " + timestr_with_weekday(root.day)
+            right_action_items: [["plus", lambda _: root.add_todo_item()], ["trash-can", lambda _: root.delete_gui()]]
+            left_action_items: [["menu", lambda x: root.show_dayswitch(x)]]
+        ScrollView:
+            MDList:
+                id: todo
+        BackButton:
+            on_release: root.save_done()
+
+<DP_Overview_DialogContent>:
+    orientation: "vertical"
+    size_hint_y: None
+    MDGridLayout:
+        cols: 2
+        MDTextField:
+            id: begintime
+            hint_text: "van"
+        MDTextField:
+            id: endtime
+            hint_text: "tot"
+    MDTextField:
+        id: subject
+        hint_text: "vak"
+        required: True
+        helper_text_mode: "on_error"

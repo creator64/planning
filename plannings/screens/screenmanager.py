@@ -10,6 +10,7 @@ class ScreenManager(SM):
         for screen in self.screens: # go through all screens that are added
             if table in screen.data_use: # check if the screen makes use of this table (screen.data_use is manually assigned on every screen)
                 screen.update()
+                #self.remove_widget(screen)
 
     def handle_show_screen(f):
         def wrapper(self, *args, **kwargs):
@@ -44,7 +45,7 @@ class ScreenManager(SM):
         self.previous_screen = self.current
         self.current = name # change the current screen to name
         try: screen.entering(new) # self made event # param new points if the screen has not been given before
-        except AttributeError:  pass
+        except AttributeError: pass
         return 1
 
     def show_previous_screen(self, direction="right"):

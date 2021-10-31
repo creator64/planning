@@ -1,0 +1,17 @@
+#:import BackButton plannings.screens.backbutton
+
+<SubMenuScreen_TestWeek_DayPlanning>:
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "dayplanning"
+            right_action_items: [["plus", lambda _: root.newday()]]
+        ScrollView:
+            MDList:
+                id: daylistgui
+        BackButton:
+
+<DP_DayItem>:
+    text: root.get_day_str()
+    on_release:
+        root.show_overview()
