@@ -1,6 +1,6 @@
 from plannings.screens.dynamic_screen import DynamicScreen # custom screen inheriting from kivymd screen
 from plannings.database.where import WHERE, eq
-from TypeModels.maininfo import Main
+from TypeModels.maininfo.branches import Main
 from screens.home.dialogcontent import Content
 from kivymd.uix.label import MDLabel
 from kivymd.uix.bottomsheet import MDListBottomSheet
@@ -29,6 +29,7 @@ class HomeScreen(DynamicScreen):
     dialogedit = None
     overlay_color = get_color_from_hex("#6042e4")
     branch = Main
+    delete_on_leave = False
     def __init__(self, **kwargs):
         self.screenname = "home"
         self.mode = "normal"

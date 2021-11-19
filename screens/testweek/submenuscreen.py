@@ -1,6 +1,7 @@
 from plannings.screens.dynamic_screen import DynamicScreen # custom screen inheriting from kivymd screen
 from plannings.database.where import WHERE, eq
 from plannings.time.timedicts import *
+from TypeModels.testweek.vars import get_sub_im
 from kivymd.app import MDApp
 from kivymd.uix.list import ThreeLineAvatarIconListItem
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -39,7 +40,7 @@ class SubjectItem(ThreeLineAvatarIconListItem):
         return text
 
     def get_image(self):
-        return "math.jpg"
+        return get_sub_im(self.subjectr.subject)
 
     def delete_gui(self, icon):
         self.dialog = MDDialog(text="Are you sure you want to delete %s from your subjects?" %(self.subjectr.subject),

@@ -11,7 +11,7 @@ class DialogContent_TestWeek_SubjectsDone(BoxLayout):
         super().__init__(**kwargs)
 
     def validate(self):
-        if self.ids.hours.text.isdigit(): # check if hours textfield is filled with an integer
+        if self.ids.hours.text.isdigit() or self.ids.hours.text == "": # check if hours textfield is filled with an integer
             return True
         else: return False
         if self.ids.minutes.text.isdigit(): # check if minutes textfield is filled with an integer
@@ -29,7 +29,6 @@ class DialogContent_TestWeek_SubjectsDone(BoxLayout):
         dp.open()
 
     def save_current_date(self, _, date, __):
-        print("hu")
         self.currentdate = date
         self.ids.date.text = self.get_date_str()
 
@@ -37,6 +36,9 @@ class DialogContent_TestWeek_SubjectsDone(BoxLayout):
         if not self.validate(): return None
         date = self.currentdate
         subject = self.subjectr.subject
-        t = TimeCounter(hours=int(self.ids.hours.text), minutes=int(self.ids.minutes.text)) # timecounter will handle it if adding for ex 80 minutes
+        hours = self.ids.hours.text; minutes = self.ids.minutes.text
+        if hours == "": hours = 0
+        if minutes == "": minutes = 0
+        t = TimeCounter(hours=int(hours), minutes=int(minutes)) # timecounter will handle it if adding for ex 80 minutes
         time = (t.hours, t.minutes)
         return {"subject": subject, "donetime": str(time), "date": date}

@@ -1,5 +1,5 @@
 from plannings.screens.dynamic_screen import DynamicScreen
-from TypeModels.maininfo import Main
+from TypeModels.maininfo.branches import Main
 from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelOneLine
 from kivymd.uix.list import TwoLineListItem
 from kivymd.uix.snackbar import Snackbar

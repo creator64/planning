@@ -1,6 +1,6 @@
-from TypeModels.testtype import TestType
-from TypeModels.testweek import TestWeek
-from TypeModels.maininfo import Main
+from TypeModels.testtype.branches import TestType
+from TypeModels.testweek.branches import TestWeek
+from TypeModels.maininfo.branches import Main
 from plannings.screens.screenmanager import ScreenManager # custom screenmanager inheriting from kivy screenmanager
 from plannings.database.db import DB
 from plannings.database.where import WHERE, eq

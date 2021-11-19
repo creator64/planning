@@ -4,7 +4,7 @@ from plannings.time.timedicts import *
 from plannings.time.timestrings import *
 from kivymd.uix.list import OneLineAvatarIconListItem
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.button import MDRaisedButton
+from kivymd.uix.button import MDRaisedButton, MDFlatButton
 import globals
 
 
@@ -41,8 +41,8 @@ class Details_TestWeek_SubjectsDone(DynamicScreen):
 
     def delete_gui(self, subjectitem):
         self.deldialog = MDDialog(title="delete", text=f"weet je zeker dat je wil verwijderen?", buttons=[
-                MDRaisedButton(text="CANCEL", on_release=lambda _: self.deldialog.dismiss()),
-                MDRaisedButton(text="DELETE", on_release=lambda _: self.delete(subjectitem))])
+                MDFlatButton(text="CANCEL", on_release=lambda _: self.deldialog.dismiss()),
+                MDFlatButton(text="DELETE", text_color="red", theme_text_color="Custom", on_release=lambda _: self.delete(subjectitem))])
         self.deldialog.open()
 
     def delete(self, subjectitem):

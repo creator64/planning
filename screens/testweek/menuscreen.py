@@ -1,6 +1,5 @@
 from plannings.screens.dynamic_screen import DynamicScreen
 import globals
-from TypeModels.maininfo import Main
 from kivymd.uix.list import OneLineAvatarIconListItem
 
 

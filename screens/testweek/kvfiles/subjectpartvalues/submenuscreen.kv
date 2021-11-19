@@ -1,4 +1,28 @@
 #:import BackButton plannings.screens.backbutton
+#: import Window kivy.core.window.Window
 
 <SubMenuScreen_TestWeek_SubjectPartValue>:
-    BackButton:
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "subjectpartvalue"
+            right_action_items: [["pencil", lambda _: root.show_part_dialog()]]
+        ScrollView:
+            id: inner_scroll
+            bar_width: 5
+            do_scroll: (True, True)
+            GridLayout:
+                id: grid
+                cols: len(root.subjectlist) + 1
+                padding: [10, 10]
+                width: 150*(len(root.subjectlist) + 1)
+                height: 50*(len(root.partlist) + 1)
+                size_hint: None, None
+        BackButton:
+
+
+<SPV_Value_Button>:
+
+<SPV_Part_Button>:
+    text: "[b][size=17]" + root.part
+    markup: True
