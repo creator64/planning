@@ -1,1 +1,1 @@
-A planningsapp made with python
+A planningsapp made with python and kivy
