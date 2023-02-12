@@ -2,6 +2,7 @@ from plannings.screens.dynamic_screen import DynamicScreen
 from plannings.time.timestrings import *
 from kivymd.uix.picker import MDDatePicker
 from kivymd.uix.list import OneLineListItem
+from kivymd.uix.snackbar import Snackbar
 import globals
 
 

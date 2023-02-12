@@ -1,10 +1,15 @@
 from kivy.uix.screenmanager import ScreenManager as SM
 from kivy.uix.screenmanager import ScreenManagerException
+import time
+from _thread import start_new_thread
 
 class ScreenManager(SM):
     def __init__(self, **kwargs):
         self.previous_screen = None
+        self.deltime = 60 # see self.screen_deleting
+        self.screen_deleting = True # When this is set to True every screen will be deleted after <self.deltime> seconds
         super(ScreenManager, self).__init__(**kwargs)
+        #start_new_thread(self.screen_del_handle, ()) bugged for now
 
     def update_screens(self, table):
         for screen in self.screens: # go through all screens that are added
@@ -44,6 +49,7 @@ class ScreenManager(SM):
             return 0
         self.previous_screen = self.current
         self.current = name # change the current screen to name
+        screen.last_visited = 0 # reset when the screen was last_visited
         try: screen.entering(new) # self made event # param new points if the screen has not been given before
         except AttributeError: pass
         return 1
@@ -53,3 +59,16 @@ class ScreenManager(SM):
             self.show_screen(self.previous_screen, direction=direction)
         else:
             print("ERROR: no previous screen yet")
+
+    def screen_del_handle(self):
+        while (self.screen_deleting):
+            for screen in self.screens:
+                if self.get_screen(self.current) == screen: # preventing a screen getting deleted while we are on that screen
+                    continue                                # and keeping last_visited of the screen on 0 while we are on that screen
+                elif screen.last_visited > self.deltime:
+                    if not screen.permanent:
+                        self.remove_widget(screen)
+                screen.last_visited += 5
+                print(screen.name, screen.last_visited)
+            print("---------------")
+            time.sleep(5)

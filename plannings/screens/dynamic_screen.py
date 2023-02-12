@@ -2,12 +2,14 @@ from kivy.uix.screenmanager import Screen
 from copy import copy
 
 class DynamicScreen(Screen):
-    delete_on_leave = False
+    delete_on_leave = False # not really at use atm
+    permanent = False # a screen will not be deleted after a while when this is set to True
     def __init__(self, required_args=["applr.id"], **kwargs):
         super().__init__(**kwargs)
         self.required_args = required_args # a list of arguments that identify a screen
         self.name = self.get_name()
         self.data_use = []
+        self.age = 0 # the length the screen exists in seconds
 
     def on_enter(self):
         try:

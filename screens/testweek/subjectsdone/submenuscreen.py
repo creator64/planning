@@ -37,7 +37,7 @@ class SubMenuScreen_TestWeek_SubjectsDone(DynamicScreen):
 
     def handle_data(self):
         self.tablecoll = self.branch.load(globals.d, applid=self.applr.id) # a TableCollection object with access to table objects
-        self.subjecttable = self.branch.master.load(globals.d, applid=self.applr.id)["subjects"]; self.subjectlist = self.subjecttable.data
+        self.subjecttable = self.branch.master.load(globals.d, applid=self.applr.id, ORDER_BY={"subjects": ("testdate", "time")})["subjects"]; self.subjectlist = self.subjecttable.data
         self.table = self.tablecoll["subjectsdone"]
         self.data_use = [self.table, self.subjecttable]
         self.data = self.table.data
@@ -57,12 +57,22 @@ class SubMenuScreen_TestWeek_SubjectsDone(DynamicScreen):
         subject = subjectr.subject
         self.dialogadd = MDDialog(title=subject, type="custom", buttons=[
                     MDFlatButton(text="CANCEL", on_release=lambda _: self.dialogadd.dismiss()),
+                    MDFlatButton(text="ADD", on_release=lambda _: self.dialogadd.content_cls.addrecord()),
                     MDFlatButton(text="SAVE", on_release=lambda _: self.save()),],
                     content_cls=DialogContent_TestWeek_SubjectsDone(subjectr)
                     )
         self.dialogadd.open()
 
     def save(self):
+        alldata = self.dialogadd.content_cls.allrecords
+        for n, record in enumerate(alldata):
+            if n == (len(alldata) - 1): # last item
+                self.table.add_row(**record, update_screens=True) # only with the last record we want to update all our screens 
+            else:
+                self.table.add_row(**record, update_screens=False) # would be weird to update the screens for every record
+        self.dialogadd.dismiss()
+
+    def save2(self):
         data = self.dialogadd.content_cls.collectdata() # ex: {"subject": maths, "donetime": "(1,22)", "date": datetime.date(2003,5,8)} (or None when invalidation)
         if not data: # some textfield is not filled with a positive integer
             Snackbar(text="invalid hours or minutes", duration=1).open()

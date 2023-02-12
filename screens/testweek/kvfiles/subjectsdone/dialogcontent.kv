@@ -1,7 +1,7 @@
 <DialogContent_TestWeek_SubjectsDone>:
     orientation: "vertical"
-    size_hint_y: None
-    height: "120dp"
+    size_hint: (1, None)
+    height: "250dp"
     MDGridLayout:
         cols: 2
         spacing: "2dp"
@@ -19,3 +19,6 @@
         MDRaisedButton:
             text: "change"
             on_release: root.change_date()
+    ScrollView:
+        MDList:
+            id: recordlist

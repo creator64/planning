@@ -30,6 +30,7 @@ class HomeScreen(DynamicScreen):
     overlay_color = get_color_from_hex("#6042e4")
     branch = Main
     delete_on_leave = False
+    permanent = True
     def __init__(self, **kwargs):
         self.screenname = "home"
         self.mode = "normal"

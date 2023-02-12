@@ -1,7 +1,7 @@
 from plannings.screens.dynamic_screen import DynamicScreen # custom screen inheriting from kivymd screen
 from plannings.database.where import WHERE, eq
 from plannings.time.timedicts import *
-from TypeModels.testweek.vars import get_sub_im
+from TypeModels.testweek.vars import get_sub_im, get_mark_color
 from kivymd.app import MDApp
 from kivymd.uix.list import ThreeLineAvatarIconListItem
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -28,7 +28,7 @@ class SubjectItem(ThreeLineAvatarIconListItem):
         text = self.subjectr.subject
         if self.subjectr.mark:
             text += ": " + str(self.subjectr.mark)
-        return text
+        return f"[color={self.get_color()}]" + text + "[/color]"
 
     def print_date_time(self):
         wd = self.subjectr.testdate.weekday()
@@ -41,6 +41,9 @@ class SubjectItem(ThreeLineAvatarIconListItem):
 
     def get_image(self):
         return get_sub_im(self.subjectr.subject)
+
+    def get_color(self):
+        return get_mark_color(self.subjectr.mark)
 
     def delete_gui(self, icon):
         self.dialog = MDDialog(text="Are you sure you want to delete %s from your subjects?" %(self.subjectr.subject),

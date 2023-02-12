@@ -83,8 +83,9 @@ class Overview_Subject_TestWeek_SubjectCommentaryDays(DynamicScreen):
         self.table = self.data_use[1].data # (subject, comment, date)
 
     def show_editscreen(self, _):
-        sc = self.branch.screens["details"]
-        globals.sm.show_screen(screen=sc(self.applr))
+        sc = self.branch.screens["details"](self.applr)
+        globals.sm.show_screen(screen=sc)
+        sc.change(subject=self.subjectr.subject)
 
     def check_test_dates(self):
         date = self.subjectr.testdate
@@ -136,8 +137,9 @@ class Overview_Day_TestWeek_SubjectCommentaryDays(DynamicScreen):
         self.table = self.data_use[1].data # (subject, comment, date)
 
     def show_editscreen(self, _):
-        sc = self.branch.screens["details"]
-        globals.sm.show_screen(screen=sc(self.applr))
+        sc = self.branch.screens["details"](self.applr)
+        globals.sm.show_screen(screen=sc)
+        sc.change(day=self.day)
 
     def delete_gui(self, _):
         if not self.deldialog:
